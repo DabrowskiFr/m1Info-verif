@@ -18,7 +18,8 @@ xhost -"local:docker@"
 
 depuis le répertoire why3
   
-  le fichier contenant le programme à vérifier doit exister avant (touch filename.mlw)
+(**) le fichier contenant le programme à vérifier doit exister avant (touch filename.mlw)
+  
   why3 ide filename.mlw
   
   
