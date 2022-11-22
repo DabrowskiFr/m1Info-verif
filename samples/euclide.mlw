@@ -1,0 +1,34 @@
+module Euclidian
+
+use int.Int
+use ref.Ref
+
+let divide (a b : int) : int
+  requires {0 <= a /\ 0 < b <= a}
+  ensures { exists rem. 0 <= rem < b /\ a = b * result + rem}
+  =
+  let q = ref 0 in
+  let r = ref a in
+  while !r >= b do
+    invariant { 0 <= !r /\ a = b * !q + !r }
+    variant { !r }
+    begin r := !r - b; q := !q + 1 end
+  done;
+  !q
+  
+  
+ let remainder (a b : int) : int
+  requires {0 <= a /\ 0 < b <= a}
+  ensures { exists q. 0 <= result < b /\ a = b * q + result}
+  =
+  let ghost q = ref 0 in
+  let r = ref a in
+  while !r >= b do
+    invariant {0 <= !r /\ a = b * !q + !r } 
+    variant { !r }
+      r := !r - b;
+      q := !q + 1
+  done;
+  !r
+  
+end 

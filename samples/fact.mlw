@@ -1,0 +1,30 @@
+theory Factorial
+
+  use export int.Int
+
+  function fact int : int
+
+  axiom fact0: fact 0 = 1
+  axiom factn: forall n:int. n >= 1 -> fact n = n * fact (n-1)
+
+end
+
+module Fact
+
+use int.Int
+use ref.Ref 
+use int.Fact
+
+let fact (n : int) : int = 
+  requires {n >= 0}
+  ensures {result = fact n}
+  let k = ref 0 in
+  let r = ref 1 in 
+  while !k < n do 
+    invariant {!k >= 0 /\ ! k <= n /\ !r = fact !k}
+    variant {n - !k}
+    k := !k + 1;
+    r := !k * !r
+  done;
+  !r
+end 
